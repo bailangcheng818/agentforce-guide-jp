@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  既存レトリーバー（検索インデックス）を埋め込んだ「文章を作る道具」の雛形。
+  <...> を実値に置換する。レトリーバー参照・入力名は推測せず、
+  既存テンプレを retrieve して読み取った実値だけを使う（委譲手順.md フェーズ2b）。
+
+  ★ 重要（ガードレール#11）：deploy しただけでは有効版にならない。
+    1) この XML（<activeVersionIdentifier> なし・<versionIdentifier> なし）で deploy
+    2) retrieve して付与された <versionIdentifier> を読む
+    3) トップレベルに <activeVersionIdentifier>= その値 を追記して再 deploy
+-->
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <developerName><NewTemplateApiName></developerName>
+    <masterLabel><日本語ラベル></masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>あなたは<役割の一文>です。日本語で、実務でそのまま使える具体的な内容を簡潔に提示してください。
+
+## 入力情報
+<項目名>: {!$Input:<入力名>}
+
+## 検索結果
+以下は、入力をもとに検索した結果です。
+{!$EinsteinSearch:<RetrieverRef>.results}
+
+## 指示
+上記の検索結果のみを根拠にしてください。検索結果に無い内容を創作してはいけません。
+情報が乏しい・関連性が低い場合は「該当度が低いため参考情報として扱ってください」と明記してください。
+
+## 出力形式
+<見出し・箇条書き・表など、フェーズ1で握った出力要件に合わせる></content>
+        <inputs>
+            <apiName><入力名></apiName>
+            <definition>primitive://String</definition>
+            <masterLabel><入力の表示名></masterLabel>
+            <referenceName>Input:<入力名></referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultGPT55</primaryModel>
+        <status>Published</status>
+        <templateDataProviders>
+            <definition>invocable://getEinsteinRetrieverResults/<RetrieverRef></definition>
+            <label><レトリーバーの説明></label>
+            <parameters>
+                <definition>primitive://String</definition>
+                <isRequired>true</isRequired>
+                <parameterName>searchText</parameterName>
+                <valueExpression>{!$Input:<入力名>}</valueExpression>
+            </parameters>
+            <parameters>
+                <definition>primitive://Integer</definition>
+                <isRequired>false</isRequired>
+                <parameterName>resultCount</parameterName>
+                <valueExpression>5</valueExpression>
+            </parameters>
+            <referenceName>EinsteinSearch:<RetrieverRef></referenceName>
+        </templateDataProviders>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>
