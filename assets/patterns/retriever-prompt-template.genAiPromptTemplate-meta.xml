@@ -2,9 +2,9 @@
 <!--
   既存レトリーバー（検索インデックス）を埋め込んだ「文章を作る道具」の雛形。
   <...> を実値に置換する。レトリーバー参照・入力名は推測せず、
-  既存テンプレを retrieve して読み取った実値だけを使う（委譲手順.md フェーズ2b）。
+  既存テンプレを retrieve して読み取った実値だけを使う（推測しない）。
 
-  ★ 重要（ガードレール#11）：deploy しただけでは有効版にならない。
+  ★ 重要（独自の落とし穴#11）：deploy しただけでは有効版にならない。
     1) この XML（<activeVersionIdentifier> なし・<versionIdentifier> なし）で deploy
     2) retrieve して付与された <versionIdentifier> を読む
     3) トップレベルに <activeVersionIdentifier>= その値 を追記して再 deploy
