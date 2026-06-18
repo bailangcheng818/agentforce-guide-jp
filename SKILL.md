@@ -25,8 +25,8 @@ allowed-tools: Read, Write, Edit, Bash, Skill
 | ① 何を作るか＋設計/実装方針（発散） | **人**（AIが壁打ち補助可） | 業務分析・過去資産を見て決める。RAGを使う/どの方式か等。SF仕様の理解と最新情報が要る |
 | ② 土台づくり | **人（SF画面）** | レトリーバー作成・Data Cloud 索引・RAG構築 → テンプレで**動作確認** |
 | ③ 設計書にまとめる | **人 or AI** | 入口により分岐（下記） |
-| ④ 組み立て | **AI（Bob・自動）** | 前提確認→構築→デプロイ→テスト（`developing-agentforce` を駆動） |
-| ⑤ チューニング | **人（直接 or Bob壁打ち）** | プロンプト調整・精度上げ。詰まればBobに相談 |
+| ④ 組み立て | **AI（Coding Agent・自動）** | 前提確認→構築→デプロイ→テスト（`developing-agentforce` を駆動） |
+| ⑤ チューニング | **人（直接 or Coding Agent壁打ち）** | プロンプト調整・精度上げ。詰まればCoding Agentに相談 |
 
 **AIが人に促す（区分け）合図**：①②の土台が未了／検索が0件続く／外部を新規接続したい／お客様向けで実行ユーザー・チャネル未整備／公開の最終OK。→ こうなったら**画面作業を人にお願いして待つ**（[references/前提チェック.md](references/前提チェック.md)）。
 
@@ -81,9 +81,9 @@ allowed-tools: Read, Write, Edit, Bash, Skill
 - **手順・構文・CLI の詳細は `developing-agentforce` に従う**。独自の罠だけ [references/独自の落とし穴.md](references/独自の落とし穴.md)。
 - 進捗は日本語で短く。専門ログは出さない。空回答は FunctionStep で自己診断（#11/#12/検索0件）。
 
-### ⑤ 調整（人・Bob壁打ち）
+### ⑤ 調整（人・Coding Agent壁打ち）
 - できあがりの名前/概要と動作テスト結果を提示。直したい所を聞き、`.agent`/テンプレを修正→再 validate→再 deploy→再 preview。
-- 直接プロンプトを触る方が速い場面もある。人がSF画面でやる／Bobに指示する、どちらも可。詰まればBobが一緒に考える。
+- 直接プロンプトを触る方が速い場面もある。人がSF画面でやる／Coding Agentに指示する、どちらも可。詰まればCoding Agentが一緒に考える。
 - 公開まで要望があれば確認の上 `publish`→`activate`。
 
 ## 参照ファイル
